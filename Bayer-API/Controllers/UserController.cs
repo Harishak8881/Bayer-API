@@ -1,7 +1,9 @@
 ﻿using System.Data.SqlClient;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Service.DTOs;
 using Service.Interfaces;
@@ -61,8 +63,26 @@ namespace Bayer_API.Controllers
         [HttpPost]
         public async Task<IActionResult> InsertUser([FromBody] UserDTO userDTO)
         {
-            var result = "";// await _userService.InsertUser(userDTO);
-            return Ok(result);
+            int rowsEffected = 0;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"INSERT INTO tblUser (UserName, Age, Gender, Height, Weight)
+                         VALUES (@UserName, @Age, @Gender, @Height, @Weight)";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserName", userDTO.UserName);
+                    cmd.Parameters.AddWithValue("@Age", userDTO.Age);
+                    cmd.Parameters.AddWithValue("@Gender", userDTO.Gender);
+                    cmd.Parameters.AddWithValue("@Height", userDTO.Height);
+                    cmd.Parameters.AddWithValue("@Weight", userDTO.Weight);
+
+                    conn.Open();
+                    rowsEffected=cmd.ExecuteNonQuery();
+                }
+            }
+
+            return Ok(rowsEffected);
         }
         [HttpGet]
         public IActionResult GetUsers()

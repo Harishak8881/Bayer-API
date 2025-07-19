@@ -11,6 +11,7 @@ namespace Service.DTOs
         public int UserID { get; set; }
         public string UserName { get; set; }
         public int? Age {  get; set; }
+        public string Gender { get; set; }
         public decimal? Height {  get; set; }
         public decimal? Weight { get; set; }
 
