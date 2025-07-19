@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,21 +33,50 @@ namespace Service
             UserDTO userDTO = null;
             try
             {
-                using (var db = new bayer_Entities())
+                string connectionString = "Server=localhost;Database=bayer-health-care-dev;Trusted_Connection=True;";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    var userData = await db.tblUsers.FirstOrDefaultAsync(x => x.Equals(username));
-                    if (userData != null)
+                    try
                     {
-                        userDTO = new UserDTO()
+                        connection.Open();
+                        Console.WriteLine("✅ Connection established successfully.");
+
+                        // Example query
+                        string query = "SELECT UserID,UserName,Age,Gender,Height,Weight FROM tblUser where UserName=@username";
+                        SqlCommand command = new SqlCommand(query, connection);
+                        command.Parameters.AddWithValue("@username", username);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            UserID = userData.UserID,
-                            UserName = userData.UserName,
-                            Age = userData.Age,
-                            Height = userData.Height,
-                            Weight = userData.Weight,
-                        };
+                            while (reader.Read())
+                            {
+                                Console.WriteLine(reader["Username"]);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"❌ Error: {ex.Message}");
                     }
                 }
+
+
+                //using (var db = new bayer_Entities())
+                //{
+                //    var userData = await db.tblUsers.FirstOrDefaultAsync(x => x.Equals(username));
+                //    if (userData != null)
+                //    {
+                //        userDTO = new UserDTO()
+                //        {
+                //            UserID = userData.UserID,
+                //            UserName = userData.UserName,
+                //            Age = userData.Age,
+                //            Height = userData.Height,
+                //            Weight = userData.Weight,
+                //        };
+                //    }
+                //}
             }
             catch (Exception ex)
             {
