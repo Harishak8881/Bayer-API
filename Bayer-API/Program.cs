@@ -1,6 +1,8 @@
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Service;
+using Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +61,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

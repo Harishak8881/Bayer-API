@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="bayer-health-care-dev.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>bayer-health-care-dev.Context.cs</LastGenOutput>
+    </None>
+    <None Update="bayer-health-care-dev.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>bayer-health-care-dev.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="bayer-health-care-dev.Context.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>bayer-health-care-dev.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Update="bayer-health-care-dev.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>bayer-health-care-dev.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>
