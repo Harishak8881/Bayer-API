@@ -62,6 +62,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBMIService, BMIService>();
 
 var app = builder.Build();
 

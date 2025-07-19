@@ -13,21 +13,24 @@ namespace Service
     using System.Configuration;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.EntityClient;
+    using System.Data.SqlClient;
     using System.IO;
 
     public partial class bayer_Entities : DbContext
     {
         public bayer_Entities()
-            : base("name=bayer_Entities")
+            : base(ConnectionString.GetConnection())
         {
         }
     
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    throw new UnintentionalCodeFirstException();
+        //}
     
         public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<Activity> Activities { get; set; }
     }
+
 }

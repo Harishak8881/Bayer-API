@@ -11,40 +11,87 @@ namespace Service
 {
     public class UserService : IUserService
     {
-        public int DeleteUser(int id)
+        public async Task<int> DeleteUser(int userId)
         {
-            throw new NotImplementedException();
+            int recordsEffected = 0;
+            using (var db = new bayer_Entities())
+            {
+                var deleteUser = await db.tblUsers.FirstOrDefaultAsync(x => x.UserID == userId);
+                if (deleteUser != null)
+                {
+                    db.tblUsers.Remove(deleteUser); 
+
+                    recordsEffected = await db.SaveChangesAsync();
+                }
+            }
+            return recordsEffected;
         }
 
         public async Task<UserDTO> GetUser(string username)
         {
             UserDTO userDTO = null;
-            using(var db=new bayer_Entities())
+            try
             {
-                var userData= await db.tblUsers.FirstOrDefaultAsync(x=>x.Equals(username));
-                if (userData != null)
+                using (var db = new bayer_Entities())
                 {
-                    userDTO = new UserDTO()
+                    var userData = await db.tblUsers.FirstOrDefaultAsync(x => x.Equals(username));
+                    if (userData != null)
                     {
-                        UserID = userData.UserID,
-                        UserName = userData.UserName,
-                        Age = userData.Age,
-                        Height = userData.Height,
-                        Weight = userData.Weight,
-                    };
+                        userDTO = new UserDTO()
+                        {
+                            UserID = userData.UserID,
+                            UserName = userData.UserName,
+                            Age = userData.Age,
+                            Height = userData.Height,
+                            Weight = userData.Weight,
+                        };
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
             return userDTO;
         }
 
-        public int InsertUser(UserDTO userDTO)
+        public async Task<int> InsertUser(UserDTO userDTO)
         {
-            throw new NotImplementedException();
+            int recordsEffected = 0;
+            var tblUser=new tblUser()
+            {
+                UserName=userDTO.UserName,
+                Age=userDTO.Age,
+                Height=userDTO.Height,
+                Weight=userDTO.Weight,
+                CreatedOn=DateTime.Now,
+            };
+            using (var db = new bayer_Entities())
+            {
+                db.tblUsers.Add(tblUser);
+                recordsEffected=await db.SaveChangesAsync();
+            }
+            return recordsEffected;
         }
 
-        public int UpdateUser(UserDTO userDTO)
+        public async Task<int> UpdateUser(UserDTO userDTO)
         {
-            throw new NotImplementedException();
+            int recordsEffected = 0;
+            using (var db = new bayer_Entities())
+            {
+              var updateUser=await db.tblUsers.FirstOrDefaultAsync(x=>x.UserID==userDTO.UserID);
+                if(updateUser!=null)
+                {
+                    updateUser.UserName = userDTO.UserName;
+                    updateUser.Age = userDTO.Age;
+                    updateUser.Height = userDTO.Height;
+                    updateUser.Weight = userDTO.Weight;
+                    updateUser.ModifiedOn=DateTime.Now;
+
+                    recordsEffected = await db.SaveChangesAsync();
+                }
+            }
+            return recordsEffected;
         }
     }
 }

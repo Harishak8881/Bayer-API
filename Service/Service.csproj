@@ -48,9 +48,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.ConfigurationManager, Version=9.0.0.7, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Configuration.ConfigurationManager.9.0.7\lib\net462\System.Configuration.ConfigurationManager.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -65,7 +62,11 @@
     <Compile Include="Activity.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="BMIService.cs" />
+    <Compile Include="ConnectionString.cs" />
+    <Compile Include="DTOs\BMIDto.cs" />
     <Compile Include="DTOs\UserDTO.cs" />
+    <Compile Include="Interfaces\IBMIService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>

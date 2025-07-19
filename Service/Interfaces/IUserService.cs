@@ -10,9 +10,9 @@ namespace Service.Interfaces
     public interface IUserService
     {
         Task<UserDTO> GetUser(string username);
-        int InsertUser(UserDTO userDTO);
-        int UpdateUser(UserDTO userDTO);
-        int DeleteUser(int id);
+        Task<int> InsertUser(UserDTO userDTO);
+        Task<int> UpdateUser(UserDTO userDTO);
+        Task<int> DeleteUser(int id);
 
     }
 }

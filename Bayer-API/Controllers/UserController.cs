@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Service.DTOs;
 using Service.Interfaces;
 
 namespace Bayer_API.Controllers
@@ -15,10 +16,17 @@ namespace Bayer_API.Controllers
         }
 
         [HttpGet("username")]
-        public async Task<IActionResult> Get([FromQuery] string username)
+        public async Task<IActionResult> GetUserByUserName([FromQuery] string username)
         {
           var result= await _userService.GetUser(username);
            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InsertUser([FromBody] UserDTO userDTO)
+        {
+            var result = await _userService.InsertUser(userDTO);
+            return Ok(result);
         }
     }
 }
